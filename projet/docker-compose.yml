@@ -1,0 +1,49 @@
+version: '3.5'
+
+services:
+    mysql:
+        container_name: reucopro_mysql
+        restart: always
+        build: ./bdd
+        command: --sql_mode="" --collation-server=utf8mb4_unicode_ci --character-set-server=utf8mb4
+        ports:
+            - 3306:3306
+        volumes:
+            - ./bdd/datas:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+    phpmyadmin:
+        container_name: reucopro_phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        ports:
+            - 8080:80
+        environment:
+            MYSQL_USERNAME: root
+            MYSQL_PASSWORD: root
+        links:
+            - mysql:db
+    php:
+        container_name: reucopro_php
+        build: ./php
+        ports:
+            - "9000:9001"
+        volumes:
+            - ./api:/var/www/api:cached
+        links:
+            - mysql:db
+    nginx:
+        container_name: reucopro_nginx
+        build: ./nginx
+        ports:
+            - "80:80"
+        depends_on:
+            - php
+        volumes:
+            - ./api:/var/www/api:cached
+    mailcatcher:
+        image: tophfr/mailcatcher
+        container_name: reucopro_mailcatcher
+        ports:
+            - '1081:80'
+            - '1025:25'
