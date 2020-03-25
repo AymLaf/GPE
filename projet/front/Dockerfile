@@ -13,7 +13,7 @@ COPY ./app/package*.json ./
 RUN npm install
 
 # copie les fichiers et dossiers du projet dans le dossier de travail (par exemple : le dossier 'app')
-COPY . .
+COPY ./app .
 
 EXPOSE 8080
-CMD [ "npm run dev" ]
+CMD [ "npm", "run", "serve" ]

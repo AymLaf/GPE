@@ -23,6 +23,12 @@ services:
             MYSQL_PASSWORD: root
         links:
             - mysql:db
+    vue-js:
+        container_name: reucopro_front
+        restart: always
+        build: ./front
+        ports:
+            - 5050:8080
     php:
         container_name: reucopro_php
         build: ./php
