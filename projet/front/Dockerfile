@@ -7,7 +7,7 @@ RUN npm install -g http-server
 WORKDIR /app
 
 # copie 'package.json' et 'package-lock.json' (si disponible)
-COPY /home/augustin/ETNA/Master/GPE/projet/front/app/package.json ./
+COPY ./app/package*.json ./
 
 # installe les dépendances du projet
 RUN npm install
