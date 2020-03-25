@@ -1,3 +1,4 @@
+sudo chown -R ${USER:=$(/usr/bin/id -run)}:$USER ./bdd/datas
 sh stop.sh
 docker-compose stop
 docker-compose up --build -d
