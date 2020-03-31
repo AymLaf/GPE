@@ -1,0 +1,6 @@
+gesdinet_jwt_refresh_token:
+    user_identity_field: email
+    ttl: 2592000 # equal 1 month
+    ttl_update: true
+    firewall: api
+    user_provider: security.user.provider.concrete.user_admin

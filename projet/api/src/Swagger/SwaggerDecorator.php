@@ -50,7 +50,7 @@ final class SwaggerDecorator implements NormalizerInterface
             'paths' => [
                 '/api/login_check' => [
                     'post' => [
-                        'tags' => ['Token'],
+                        'tags' => ['Authentication Token'],
                         'operationId' => 'postCredentialsItem',
                         'summary' => 'Get JWT token to login.',
                         'requestBody' => [
