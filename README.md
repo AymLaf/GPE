@@ -17,3 +17,14 @@ Install Vue CLI
 npm install -g @vue/cli
 
 vue create front
+
+
+
+
+
+first install
+
+jwt passphrase --> reucopro
+creer la base reucopro
+load migration : php bin/console doctrine:migrations:migrate
+load fixtures : php bin/console doctrine:fixtures:load

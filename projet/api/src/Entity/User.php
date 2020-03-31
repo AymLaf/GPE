@@ -4,12 +4,17 @@
 
 	use ApiPlatform\Core\Annotation\ApiResource;
 	use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
+    use Ramsey\Uuid\UuidInterface;
+    use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
+    use Symfony\Component\Security\Core\User\UserInterface;
 
-	/**
+    /**
 	 * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
 	 */
-	class User {
+	class User implements UserInterface, EncoderAwareInterface
+    {
 		/**
 		 * @ORM\Id()
 		 * @ORM\GeneratedValue()
@@ -33,7 +38,7 @@
 		private $email;
 
 		/**
-		 * @ORM\Column(type="string", length=50, nullable=true)
+		 * @ORM\Column(type="string", length=255, nullable=true)
 		 */
 		private $password;
 
@@ -67,19 +72,26 @@
 		 */
 		private $syndic;
 
+        public function __construct()
+        {
+            $this->setUuid(Uuid::uuid4());
+        }
+
 		public function getId (): ?int {
 			return $this->id;
 		}
 
-		public function getUuid (): ?string {
-			return $this->uuid;
-		}
+        public function getUuid(): UuidInterface
+        {
+            return is_string($this->uuid) ? Uuid::fromString($this->uuid) : $this->uuid;
+        }
 
-		public function setUuid (string $uuid): self {
-			$this->uuid = $uuid;
+        private function setUuid(UuidInterface $uuid): self
+        {
+            $this->uuid = $uuid;
 
-			return $this;
-		}
+            return $this;
+        }
 
 		public function getRole (): ?string {
 			return $this->role;
@@ -170,4 +182,44 @@
 
 			return $this;
 		}
-	}
+
+        /**
+         * @inheritDoc
+         */
+        public function getRoles()
+        {
+            return ['ROLE_USER'];
+        }
+
+        /**
+         * @inheritDoc
+         */
+        public function getSalt()
+        {
+            return null;
+        }
+
+        /**
+         * @inheritDoc
+         */
+        public function getUsername()
+        {
+            return $this->email;
+        }
+
+        /**
+         * @inheritDoc
+         */
+        public function eraseCredentials()
+        {
+
+        }
+
+        /**
+         * @inheritDoc
+         */
+        public function getEncoderName()
+        {
+            return null;
+        }
+    }
