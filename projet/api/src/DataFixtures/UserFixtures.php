@@ -41,7 +41,7 @@ class UserFixtures extends BaseFixture
                     $owner->setUser($user);
                     $owner->setFirstname($this->faker->firstName."_".$count);
                     $owner->setLastname($this->faker->lastName."_".$count);
-                    $owner->setTantieme($this->faker->numberBetween(1000, 5000));
+                    $owner->setTantieme($this->faker->numberBetween(1, 1000));
 
                     $manager->persist($owner);
                 }
