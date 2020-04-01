@@ -3,7 +3,8 @@
 	namespace App\Entity;
 
 	use ApiPlatform\Core\Annotation\ApiResource;
-	use Doctrine\Common\Collections\ArrayCollection;
+    use App\Core\Traits\IdentifierTrait;
+    use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
 
@@ -12,17 +13,7 @@
 	 * @ORM\Entity(repositoryClass="App\Repository\MeetingRepository")
 	 */
 	class Meeting {
-		/**
-		 * @ORM\Id()
-		 * @ORM\GeneratedValue()
-		 * @ORM\Column(type="integer")
-		 */
-		private $id;
-
-		/**
-		 * @ORM\Column(type="string", length=255)
-		 */
-		private $uuid;
+        use IdentifierTrait;
 
 		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Building", inversedBy="meetings")
@@ -68,20 +59,6 @@
 			$this->owner = new ArrayCollection();
 			$this->resolutions = new ArrayCollection();
 			$this->delegations = new ArrayCollection();
-		}
-
-		public function getId (): ?int {
-			return $this->id;
-		}
-
-		public function getUuid (): ?string {
-			return $this->uuid;
-		}
-
-		public function setUuid (string $uuid): self {
-			$this->uuid = $uuid;
-
-			return $this;
 		}
 
 		public function getBuilding (): ?Building {

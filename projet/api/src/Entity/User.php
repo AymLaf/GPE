@@ -3,7 +3,8 @@
 	namespace App\Entity;
 
 	use ApiPlatform\Core\Annotation\ApiResource;
-	use Doctrine\ORM\Mapping as ORM;
+    use App\Core\Traits\IdentifierTrait;
+    use Doctrine\ORM\Mapping as ORM;
     use Ramsey\Uuid\Uuid;
     use Ramsey\Uuid\UuidInterface;
     use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
@@ -15,17 +16,7 @@
 	 */
 	class User implements UserInterface, EncoderAwareInterface
     {
-		/**
-		 * @ORM\Id()
-		 * @ORM\GeneratedValue()
-		 * @ORM\Column(type="integer")
-		 */
-		private $id;
-
-		/**
-		 * @ORM\Column(type="string", length=255)
-		 */
-		private $uuid;
+		use IdentifierTrait;
 
 		/**
 		 * @ORM\Column(type="string", length=30)
@@ -75,22 +66,6 @@
         public function __construct()
         {
             $this->setUuid(Uuid::uuid4());
-        }
-
-		public function getId (): ?int {
-			return $this->id;
-		}
-
-        public function getUuid(): UuidInterface
-        {
-            return is_string($this->uuid) ? Uuid::fromString($this->uuid) : $this->uuid;
-        }
-
-        private function setUuid(UuidInterface $uuid): self
-        {
-            $this->uuid = $uuid;
-
-            return $this;
         }
 
 		public function getRole (): ?string {
