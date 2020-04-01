@@ -7,8 +7,9 @@
     use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
 
-	/**
+    /**
 	 * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\OwnerRepository")
 	 */
@@ -54,6 +55,7 @@
 			$this->lots = new ArrayCollection();
 			$this->meetings = new ArrayCollection();
 			$this->votes = new ArrayCollection();
+            $this->setUuid(Uuid::uuid4());
 		}
 
 		public function getFirstname (): ?string {

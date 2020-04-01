@@ -7,8 +7,9 @@
     use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
 
-	/**
+    /**
 	 * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\MeetingRepository")
 	 */
@@ -59,6 +60,7 @@
 			$this->owner = new ArrayCollection();
 			$this->resolutions = new ArrayCollection();
 			$this->delegations = new ArrayCollection();
+            $this->setUuid(Uuid::uuid4());
 		}
 
 		public function getBuilding (): ?Building {

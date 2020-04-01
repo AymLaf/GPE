@@ -5,8 +5,9 @@
 	use ApiPlatform\Core\Annotation\ApiResource;
     use App\Core\Traits\IdentifierTrait;
     use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
 
-	/**
+    /**
 	 * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\LotRepository")
 	 */
@@ -22,6 +23,11 @@
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Building", inversedBy="lots")
 		 */
 		private $building;
+
+        public function __construct()
+        {
+            $this->setUuid(Uuid::uuid4());
+        }
 
 		public function getOwner (): ?Owner {
 			return $this->owner;

@@ -7,8 +7,9 @@
     use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
 
-	/**
+    /**
 	 * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\ResolutionRepository")
 	 */
@@ -37,6 +38,7 @@
 
 		public function __construct () {
 			$this->votes = new ArrayCollection();
+            $this->setUuid(Uuid::uuid4());
 		}
 
 		public function getMeeting (): ?Meeting {

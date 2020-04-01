@@ -5,8 +5,9 @@
 	use ApiPlatform\Core\Annotation\ApiResource;
     use App\Core\Traits\IdentifierTrait;
     use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
 
-	/**
+    /**
 	 * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\DelegationRepository")
 	 */
@@ -27,6 +28,11 @@
 		 * @ORM\OneToOne(targetEntity="App\Entity\Owner", cascade={"persist", "remove"})
 		 */
 		private $receiver_owner;
+
+        public function __construct()
+        {
+            $this->setUuid(Uuid::uuid4());
+        }
 
 		public function getMeeting (): ?Meeting {
 			return $this->meeting;
