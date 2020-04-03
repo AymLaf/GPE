@@ -51,11 +51,11 @@
 			return $this;
 		}
 
-		public function getTypeVote (): ?int {
+		public function getTypeVote (): ?string {
 			return $this->type_vote;
 		}
 
-		public function setTypeVote (int $type_vote): self {
+		public function setTypeVote (string $type_vote): self {
 			$this->type_vote = $type_vote;
 
 			return $this;

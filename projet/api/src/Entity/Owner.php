@@ -51,10 +51,27 @@
 		 */
 		private $votes;
 
+		/**
+		 * @ORM\OneToMany(targetEntity="App\Entity\Delegation", mappedBy="donor_owner")
+		 */
+		private $delegations_donor;
+
+		/**
+		 * @ORM\OneToMany(targetEntity="App\Entity\Delegation", mappedBy="receiver_owner")
+		 */
+		private $delegations_receiver;
+
+        /**
+         * @ORM\ManyToOne(targetEntity="App\Entity\Building", inversedBy="owners")
+         */
+        private $building;
+
 		public function __construct () {
 			$this->lots = new ArrayCollection();
 			$this->meetings = new ArrayCollection();
 			$this->votes = new ArrayCollection();
+			$this->delegations_donor = new ArrayCollection();
+			$this->delegations_receiver = new ArrayCollection();
             $this->setUuid(Uuid::uuid4());
 		}
 
@@ -184,4 +201,28 @@
 
 			return $this;
 		}
+
+		/**
+		 * @return Collection|Delegation[]
+		 */
+		public function getDelegationsDonor (): Collection {
+			return $this->delegations_donor;
+		}
+
+		/**
+		 * @return Collection|Delegation[]
+		 */
+		public function getDelegationsReceiver (): Collection {
+			return $this->delegations_receiver;
+		}
+
+        public function getBuilding (): ?Building {
+            return $this->building;
+        }
+
+        public function setBuilding (?Building $building): self {
+            $this->building = $building;
+
+            return $this;
+        }
 	}

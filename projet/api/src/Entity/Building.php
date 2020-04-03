@@ -56,9 +56,15 @@
 		 */
 		private $meetings;
 
+		/**
+		 * @ORM\OneToMany(targetEntity="App\Entity\Owner", mappedBy="building")
+		 */
+		private $owners;
+
 		public function __construct () {
 			$this->lots = new ArrayCollection();
 			$this->meetings = new ArrayCollection();
+			$this->owners = new ArrayCollection();
             $this->setUuid(Uuid::uuid4());
 		}
 
@@ -172,6 +178,34 @@
 				// set the owning side to null (unless already changed)
 				if ($meeting->getBuilding() === $this) {
 					$meeting->setBuilding(null);
+				}
+			}
+
+			return $this;
+		}
+
+		/**
+		 * @return Collection|Owner[]
+		 */
+		public function getOwners (): Collection {
+			return $this->owners;
+		}
+
+		public function addOwner (Owner $owner): self {
+			if (!$this->owners->contains($owner)) {
+				$this->owners[] = $owner;
+                $owner->setBuilding($this);
+			}
+
+			return $this;
+		}
+
+		public function removeOwner (Owner $owner): self {
+			if ($this->owners->contains($owner)) {
+				$this->owners->removeElement($owner);
+				// set the owning side to null (unless already changed)
+				if ($owner->getBuilding() === $this) {
+                    $owner->setBuilding(null);
 				}
 			}
 

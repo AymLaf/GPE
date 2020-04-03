@@ -20,12 +20,12 @@
 		private $meeting;
 
 		/**
-		 * @ORM\OneToOne(targetEntity="App\Entity\Owner", cascade={"persist", "remove"})
+		 * @ORM\ManyToOne(targetEntity="App\Entity\Owner", inversedBy="delegations_donor")
 		 */
 		private $donor_owner;
 
 		/**
-		 * @ORM\OneToOne(targetEntity="App\Entity\Owner", cascade={"persist", "remove"})
+		 * @ORM\ManyToOne(targetEntity="App\Entity\Owner", inversedBy="delegations_receiver")
 		 */
 		private $receiver_owner;
 

@@ -2,8 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Owner;
-use App\Entity\Syndic;
 use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -11,40 +9,26 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends BaseFixture
 {
 
-    private $encode;
+    private $user_psw;
 
     public function __construct(UserPasswordEncoderInterface $encoder) {
-        $this->encode = $encoder;
+        $user = new User();
+        $this->user_psw = $encoder->encodePassword($user, "user");
+        unset($user);
     }
 
     public function loadData(ObjectManager $manager)
     {
-
         $this->createMany(
             User::class,
-            20,
+            400,
             function (User $user, $count) use ($manager) {
                 $user->setEmail("user_".$count."@reucopro.com");
-                $user->setPassword($this->encode->encodePassword($user, "user_".$count));
+                $user->setPassword($this->user_psw);
                 $user->setRole("IS_AUTHENTICATED_FULLY");
 
                 $manager->persist($user);
-
-                if ($this->faker->boolean(20)) {
-                    $syndic = new Syndic();
-                    $syndic->setUser($user);
-                    $syndic->setName($this->faker->company."_".$count);
-
-                    $manager->persist($syndic);
-                } else {
-                    $owner = new Owner();
-                    $owner->setUser($user);
-                    $owner->setFirstname($this->faker->firstName."_".$count);
-                    $owner->setLastname($this->faker->lastName."_".$count);
-                    $owner->setTantieme($this->faker->numberBetween(1, 1000));
-
-                    $manager->persist($owner);
-                }
+                $this->addReference('user_'.$count, $user);
             }
         );
 

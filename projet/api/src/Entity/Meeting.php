@@ -44,7 +44,7 @@
 		/**
 		 * @ORM\ManyToMany(targetEntity="App\Entity\Owner", inversedBy="meetings")
 		 */
-		private $owner;
+		private $owners;
 
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Resolution", mappedBy="meeting")
@@ -57,7 +57,7 @@
 		private $delegations;
 
 		public function __construct () {
-			$this->owner = new ArrayCollection();
+			$this->owners = new ArrayCollection();
 			$this->resolutions = new ArrayCollection();
 			$this->delegations = new ArrayCollection();
             $this->setUuid(Uuid::uuid4());
@@ -116,21 +116,21 @@
 		/**
 		 * @return Collection|Owner[]
 		 */
-		public function getOwner (): Collection {
-			return $this->owner;
+		public function getOwners (): Collection {
+			return $this->owners;
 		}
 
 		public function addOwner (Owner $owner): self {
-			if (!$this->owner->contains($owner)) {
-				$this->owner[] = $owner;
+			if (!$this->owners->contains($owner)) {
+				$this->owners[] = $owner;
 			}
 
 			return $this;
 		}
 
 		public function removeOwner (Owner $owner): self {
-			if ($this->owner->contains($owner)) {
-				$this->owner->removeElement($owner);
+			if ($this->owners->contains($owner)) {
+				$this->owners->removeElement($owner);
 			}
 
 			return $this;
