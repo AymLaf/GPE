@@ -2,23 +2,17 @@
 
 	namespace App\Entity;
 
-	use Doctrine\ORM\Mapping as ORM;
+    use ApiPlatform\Core\Annotation\ApiResource;
+    use App\Core\Traits\IdentifierTrait;
+    use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
 
-	/**
+    /**
+     * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\VoteRepository")
 	 */
 	class Vote {
-		/**
-		 * @ORM\Id()
-		 * @ORM\GeneratedValue()
-		 * @ORM\Column(type="integer")
-		 */
-		private $id;
-
-		/**
-		 * @ORM\Column(type="string", length=255)
-		 */
-		private $uuid;
+        use IdentifierTrait;
 
 		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Owner", inversedBy="votes")
@@ -35,19 +29,10 @@
 		 */
 		private $resolution;
 
-		public function getId (): ?int {
-			return $this->id;
-		}
-
-		public function getUuid (): ?string {
-			return $this->uuid;
-		}
-
-		public function setUuid (string $uuid): self {
-			$this->uuid = $uuid;
-
-			return $this;
-		}
+        public function __construct()
+        {
+            $this->setUuid(Uuid::uuid4());
+        }
 
 		public function getOwner (): ?Owner {
 			return $this->owner;

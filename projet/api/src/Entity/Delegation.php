@@ -3,19 +3,16 @@
 	namespace App\Entity;
 
 	use ApiPlatform\Core\Annotation\ApiResource;
-	use Doctrine\ORM\Mapping as ORM;
+    use App\Core\Traits\IdentifierTrait;
+    use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
 
-	/**
+    /**
 	 * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\DelegationRepository")
 	 */
 	class Delegation {
-		/**
-		 * @ORM\Id()
-		 * @ORM\GeneratedValue()
-		 * @ORM\Column(type="integer")
-		 */
-		private $id;
+        use IdentifierTrait;
 
 		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Meeting", inversedBy="delegations")
@@ -23,23 +20,19 @@
 		private $meeting;
 
 		/**
-		 * @ORM\Column(type="string", length=255)
-		 */
-		private $uuid;
-
-		/**
-		 * @ORM\OneToOne(targetEntity="App\Entity\Owner", cascade={"persist", "remove"})
+		 * @ORM\ManyToOne(targetEntity="App\Entity\Owner", inversedBy="delegations_donor")
 		 */
 		private $donor_owner;
 
 		/**
-		 * @ORM\OneToOne(targetEntity="App\Entity\Owner", cascade={"persist", "remove"})
+		 * @ORM\ManyToOne(targetEntity="App\Entity\Owner", inversedBy="delegations_receiver")
 		 */
 		private $receiver_owner;
 
-		public function getId (): ?int {
-			return $this->id;
-		}
+        public function __construct()
+        {
+            $this->setUuid(Uuid::uuid4());
+        }
 
 		public function getMeeting (): ?Meeting {
 			return $this->meeting;
@@ -47,16 +40,6 @@
 
 		public function setMeeting (?Meeting $meeting): self {
 			$this->meeting = $meeting;
-
-			return $this;
-		}
-
-		public function getUuid (): ?string {
-			return $this->uuid;
-		}
-
-		public function setUuid (string $uuid): self {
-			$this->uuid = $uuid;
 
 			return $this;
 		}

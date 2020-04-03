@@ -3,26 +3,18 @@
 	namespace App\Entity;
 
 	use ApiPlatform\Core\Annotation\ApiResource;
-	use Doctrine\Common\Collections\ArrayCollection;
+    use App\Core\Traits\IdentifierTrait;
+    use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
 
-	/**
+    /**
 	 * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\MeetingRepository")
 	 */
 	class Meeting {
-		/**
-		 * @ORM\Id()
-		 * @ORM\GeneratedValue()
-		 * @ORM\Column(type="integer")
-		 */
-		private $id;
-
-		/**
-		 * @ORM\Column(type="string", length=255)
-		 */
-		private $uuid;
+        use IdentifierTrait;
 
 		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Building", inversedBy="meetings")
@@ -52,7 +44,7 @@
 		/**
 		 * @ORM\ManyToMany(targetEntity="App\Entity\Owner", inversedBy="meetings")
 		 */
-		private $owner;
+		private $owners;
 
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Resolution", mappedBy="meeting")
@@ -65,23 +57,10 @@
 		private $delegations;
 
 		public function __construct () {
-			$this->owner = new ArrayCollection();
+			$this->owners = new ArrayCollection();
 			$this->resolutions = new ArrayCollection();
 			$this->delegations = new ArrayCollection();
-		}
-
-		public function getId (): ?int {
-			return $this->id;
-		}
-
-		public function getUuid (): ?string {
-			return $this->uuid;
-		}
-
-		public function setUuid (string $uuid): self {
-			$this->uuid = $uuid;
-
-			return $this;
+            $this->setUuid(Uuid::uuid4());
 		}
 
 		public function getBuilding (): ?Building {
@@ -137,21 +116,21 @@
 		/**
 		 * @return Collection|Owner[]
 		 */
-		public function getOwner (): Collection {
-			return $this->owner;
+		public function getOwners (): Collection {
+			return $this->owners;
 		}
 
 		public function addOwner (Owner $owner): self {
-			if (!$this->owner->contains($owner)) {
-				$this->owner[] = $owner;
+			if (!$this->owners->contains($owner)) {
+				$this->owners[] = $owner;
 			}
 
 			return $this;
 		}
 
 		public function removeOwner (Owner $owner): self {
-			if ($this->owner->contains($owner)) {
-				$this->owner->removeElement($owner);
+			if ($this->owners->contains($owner)) {
+				$this->owners->removeElement($owner);
 			}
 
 			return $this;

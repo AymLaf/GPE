@@ -1,8 +1,68 @@
-# Groupe de obadia_r
+# Reucopro - Groupe obadia_r
 
-# BACK
+## Requirements :
+- Docker
+- Bash shell
 
-# FRONT
+## First run
+You can read more about scripts in the "About scripts" section bellow
+### Installation
+Start services through docker containers :
+```bash
+# Warning : this script will remove your running docker's containers
+$ sh start.sh
+```
+
+JWT token setup (recommended passphrase : reucopro) :
+```bash
+# Warning : interactive commands
+$ docker exec -it reucopro_php sh -c "openssl genrsa -out config/jwt/private.pem -aes256 4096"
+$ docker exec -it reucopro_php sh -c "openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem"
+```
+
+Creation of the database :
+```bash
+$ sh db.sh
+```
+
+[Optional - Recommended] Loading fixtures :
+```bash
+$ sh fixtures.sh
+```
+### Informations
+- Super admin user credentials : admin@reucopro.com - admin
+- If you don't have setup the JWT passphrase to "reucopro" then please override `JWT_PASSPHRASE` in a file name `api/.env.local` with your value
+- Database datas will persist if services shutdown
+
+## Rerun the project
+Start services :
+```bash
+# Warning : this script will remove your running docker's containers
+$ sh start.sh
+```
+
+## About scripts
+- stop.sh :
+    - Stop and remove all running containers
+- start.sh :
+    - run `stop.sh`
+    - run docker compose
+    - run composer install for the API (`api/`) through "reucopro_php" container
+- db.sh :
+    - drop database through "reucopro_php" container with Doctrine
+    - create database through "reucopro_php" container with Doctrine
+    - create schema through "reucopro_php" container with Doctrine
+- fixtures.sh :
+    - load fixtures for fake datas through "reucopro_php" container with Doctrine
+
+## Services URLs
+- API : http://reucopro.localhost/api (add "/doc" to see ApiPlatform documentation)
+- Front : http://localhost:5050
+- phpMyAdmin : http://localhost:8080 (credentials : root - root)
+
+
+
+## FRONT - TODO UN TRUC PROPRE ET A RANGER AVEC LES SECTIONS EXISTANTES
 
 Install nvm 
 - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash

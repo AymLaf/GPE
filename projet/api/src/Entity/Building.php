@@ -3,26 +3,18 @@
 	namespace App\Entity;
 
 	use ApiPlatform\Core\Annotation\ApiResource;
-	use Doctrine\Common\Collections\ArrayCollection;
+    use App\Core\Traits\IdentifierTrait;
+    use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
+    use Ramsey\Uuid\Uuid;
 
-	/**
+    /**
 	 * @ApiResource()
 	 * @ORM\Entity(repositoryClass="App\Repository\BuildingRepository")
 	 */
 	class Building {
-		/**
-		 * @ORM\Id()
-		 * @ORM\GeneratedValue()
-		 * @ORM\Column(type="integer")
-		 */
-		private $id;
-
-		/**
-		 * @ORM\Column(type="string", length=255)
-		 */
-		private $uuid;
+        use IdentifierTrait;
 
 		/**
 		 * @ORM\Column(type="string", length=255)
@@ -64,23 +56,16 @@
 		 */
 		private $meetings;
 
+		/**
+		 * @ORM\OneToMany(targetEntity="App\Entity\Owner", mappedBy="building")
+		 */
+		private $owners;
+
 		public function __construct () {
 			$this->lots = new ArrayCollection();
 			$this->meetings = new ArrayCollection();
-		}
-
-		public function getId (): ?int {
-			return $this->id;
-		}
-
-		public function getUuid (): ?string {
-			return $this->uuid;
-		}
-
-		public function setUuid (string $uuid): self {
-			$this->uuid = $uuid;
-
-			return $this;
+			$this->owners = new ArrayCollection();
+            $this->setUuid(Uuid::uuid4());
 		}
 
 		public function getAddress (): ?string {
@@ -193,6 +178,34 @@
 				// set the owning side to null (unless already changed)
 				if ($meeting->getBuilding() === $this) {
 					$meeting->setBuilding(null);
+				}
+			}
+
+			return $this;
+		}
+
+		/**
+		 * @return Collection|Owner[]
+		 */
+		public function getOwners (): Collection {
+			return $this->owners;
+		}
+
+		public function addOwner (Owner $owner): self {
+			if (!$this->owners->contains($owner)) {
+				$this->owners[] = $owner;
+                $owner->setBuilding($this);
+			}
+
+			return $this;
+		}
+
+		public function removeOwner (Owner $owner): self {
+			if ($this->owners->contains($owner)) {
+				$this->owners->removeElement($owner);
+				// set the owning side to null (unless already changed)
+				if ($owner->getBuilding() === $this) {
+                    $owner->setBuilding(null);
 				}
 			}
 
