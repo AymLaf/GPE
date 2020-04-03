@@ -38,7 +38,7 @@ class MeetingFixtures extends BaseFixture implements DependentFixtureInterface
                         foreach ($receiverArray as $key => $value) {
                             if ($value->getId() == $owner->getId()) unset($receiverArray[$key]);
                         }
-                        $delegation->setReceiverOwner($this->faker->randomElement($receiverArray));
+                        $delegation->setReceiverOwner($this->faker->randomElement($receiverArray->toArray()));
 
                         $manager->persist($delegation);
                     } else {

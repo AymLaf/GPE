@@ -173,6 +173,15 @@
     "phpdocumentor/type-resolver": {
         "version": "1.1.0"
     },
+    "phpstan/extension-installer": {
+        "version": "1.0.4"
+    },
+    "phpstan/phpstan": {
+        "version": "0.12.18"
+    },
+    "phpstan/phpstan-doctrine": {
+        "version": "0.12.10"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -204,6 +213,18 @@
         },
         "files": [
             "config/packages/ramsey_uuid_doctrine.yaml"
+        ]
+    },
+    "squizlabs/php_codesniffer": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "0dc9cceda799fd3a08b96987e176a261028a3709"
+        },
+        "files": [
+            "phpcs.xml.dist"
         ]
     },
     "symfony/asset": {

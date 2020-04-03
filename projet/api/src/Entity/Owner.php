@@ -95,11 +95,11 @@
 			return $this;
 		}
 
-		public function getTantieme (): ?string {
+		public function getTantieme (): ?float {
 			return $this->tantieme;
 		}
 
-		public function setTantieme (string $tantieme): self {
+		public function setTantieme (float $tantieme): self {
 			$this->tantieme = $tantieme;
 
 			return $this;

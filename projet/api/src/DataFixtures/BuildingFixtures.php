@@ -18,7 +18,7 @@ class BuildingFixtures extends BaseFixture implements DependentFixtureInterface
             function (Building $building, $count) use ($manager) {
                 $building->setAddress($this->faker->streetName);
                 $building->setCity($this->faker->city);
-                $building->setNumber($this->faker->buildingNumber);
+                $building->setNumber((int)$this->faker->buildingNumber);
                 $building->setZipCode($this->faker->postcode);
                 if ($this->faker->boolean(50)) {
                     $building->setComplement($this->faker->streetSuffix);

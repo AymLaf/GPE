@@ -60,6 +60,9 @@ $ sh start.sh
 - Front : http://localhost:5050
 - phpMyAdmin : http://localhost:8080 (credentials : root - root)
 
+## Services docs
+- [API](/projet/api/README.md#api-documentation)
+
 
 
 ## FRONT - TODO UN TRUC PROPRE ET A RANGER AVEC LES SECTIONS EXISTANTES

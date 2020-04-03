@@ -1,0 +1,7 @@
+parameters:
+	level: 5
+	excludes_analyse:
+	    - src/Migrations
+	    - src/Swagger
+	paths:
+		- src
