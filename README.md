@@ -16,8 +16,8 @@ $ sh start.sh
 JWT token setup (recommended passphrase : reucopro) :
 ```bash
 # Warning : interactive commands
-$ openssl genrsa -out config/jwt/private.pem -aes256 4096
-$ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+$ docker exec -it reucopro_php sh -c "openssl genrsa -out config/jwt/private.pem -aes256 4096"
+$ docker exec -it reucopro_php sh -c "openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem"
 ```
 
 Creation of the database :
