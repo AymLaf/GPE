@@ -29,6 +29,9 @@ services:
         build: ./front
         ports:
             - 5050:8080
+        volumes:
+            - ./front/app/src:/app/src
+            - ./front/app/node_modules:/app/src/node_modules
     php:
         container_name: reucopro_php
         build: ./php
