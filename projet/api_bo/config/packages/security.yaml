@@ -25,15 +25,6 @@ security:
                 check_path:               /api/login_check
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
-        login_bo:
-            pattern: ^/
-            anonymous: true
-            guard:
-                authenticators:
-                    - App\Security\BO\LoginAuthenticator
-            logout:
-                path: bo_logout
-                target: bo_login
         api:
             pattern:   ^/api(?!/(doc|login_check)$)
             stateless: true
@@ -41,6 +32,15 @@ security:
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
+        login_bo:
+            pattern: ^/(?!^/api)
+            anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\BO\LoginAuthenticator
+            logout:
+                path: bo_logout
+                target: bo_login
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
@@ -49,5 +49,5 @@ security:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
