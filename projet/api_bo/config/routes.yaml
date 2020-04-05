@@ -1,0 +1,11 @@
+api_login_check:
+    path: /api/login_check
+    methods: ['POST']
+
+gesdinet_jwt_refresh_token:
+    path:       /api/token/refresh
+    controller: gesdinet.jwtrefreshtoken::refresh
+
+swagger_ui:
+    path: /api/doc
+    controller: api_platform.swagger.action.ui

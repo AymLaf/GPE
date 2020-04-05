@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% trans from 'common' %} menu.dashboard {% endtrans %}
+{% endblock %}
+
+{% block body %}
+	dash
+	<a href="{{ path('bo_logout') }}">
+		{% trans from 'common' %} menu.logout {% endtrans %}
+	</a>
+{% endblock %}

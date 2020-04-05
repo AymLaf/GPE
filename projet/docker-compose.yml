@@ -1,28 +1,35 @@
 version: '3.5'
-
 services:
     mysql:
         container_name: reucopro_mysql
         restart: always
-        build: ./bdd
-        command: --sql_mode="" --collation-server=utf8mb4_unicode_ci --character-set-server=utf8mb4
+        build: ./mysql
         ports:
-            - 3306:3306
+            - '3306:3306'
+        expose:
+            - '3306'
         volumes:
-            - ./bdd/datas:/var/lib/mysql
+            - './mysql/init:/docker-entrypoint-initdb.d'
+            - 'mysql:/var/lib/mysql'
         environment:
             MYSQL_ROOT_PASSWORD: root
     phpmyadmin:
         container_name: reucopro_phpmyadmin
-        image: phpmyadmin/phpmyadmin
+        build: ./phpmyadmin
         restart: always
         ports:
             - 8080:80
         environment:
             MYSQL_USERNAME: root
             MYSQL_PASSWORD: root
+            PMA_THEME: metro
+            PMA_PMADB: phpmyadmin
+            PMA_USER: root
+            PMA_PASSWORD: root
         links:
             - mysql:db
+        volumes:
+            - 'phpmyadmin_data:/phpmyadmin'
     vue-js:
         container_name: reucopro_front
         restart: always
@@ -31,25 +38,39 @@ services:
             - 5050:8080
     php:
         container_name: reucopro_php
+        restart: always
         build: ./php
+        depends_on:
+          - mailcatcher
         ports:
             - "9000:9001"
         volumes:
-            - ./api:/var/www/api:cached
+            - './api_bo:/var/www/api_bo:cached'
         links:
             - mysql:db
+            - mailcatcher
+        extra_hosts:
+            - "reucopro.admin.localhost:172.17.0.1"
     nginx:
         container_name: reucopro_nginx
         build: ./nginx
+        restart: always
         ports:
-            - "80:80"
+            - '80:80'
+            - '443:443'
         depends_on:
             - php
         volumes:
-            - ./api:/var/www/api:cached
+            - './api_bo:/var/www/api_bo:cached'
+        links:
+          - php
     mailcatcher:
         image: tophfr/mailcatcher
+        restart: always
         container_name: reucopro_mailcatcher
         ports:
             - '1081:80'
-            - '1025:25'
+            - '1026:25'
+volumes:
+    mysql:
+    phpmyadmin_data:
