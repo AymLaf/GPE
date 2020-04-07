@@ -3,6 +3,7 @@
 ## Requirements :
 - Docker
 - Bash shell
+- NPM
 
 ## First run
 You can read more about scripts in the "About scripts" section bellow

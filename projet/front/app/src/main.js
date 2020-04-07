@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+//import router from './router'
 import store from './store'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import RouterService from './services/router.service'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -13,8 +14,10 @@ Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false
 
+RouterService.init();
+
 new Vue({
-  router,
+  router : RouterService.getRouter(),
   store,
   render: h => h(App)
 }).$mount('#app')
