@@ -18,11 +18,13 @@
 
 		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Meeting", inversedBy="resolutions")
+         *
 		 */
 		private $meeting;
 
 		/**
 		 * @ORM\Column(type="string", columnDefinition="ENUM('Simple', 'Absolue', 'Double', 'Unanimité')")
+         *
 		 */
 		private $type_vote;
 

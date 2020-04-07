@@ -3,6 +3,7 @@
 	namespace App\Entity;
 
 	use ApiPlatform\Core\Annotation\ApiResource;
+    use ApiPlatform\Core\Annotation\ApiSubresource;
     use App\Core\Traits\IdentifierTrait;
     use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
@@ -48,6 +49,7 @@
 
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Resolution", mappedBy="meeting")
+         * @ApiSubresource()
 		 */
 		private $resolutions;
 
