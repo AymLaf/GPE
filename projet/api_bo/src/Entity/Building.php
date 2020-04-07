@@ -60,6 +60,7 @@
 
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Owner", mappedBy="building")
+         * @ApiSubresource
 		 */
 		private $owners;
 
