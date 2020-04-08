@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-//import StorageService from './storage.service';
+import StorageService from "./storage.service";
 
 Vue.use(VueRouter);
 
@@ -13,45 +12,7 @@ const RouterService = {
 
     router : null,
 
-    init() {
-        const routes = [
-            {
-                path: '/',
-                name: 'Dashboard',
-                meta: {title: 'Reucopro'},
-                components: {
-                    default: () => import('../views/Dashboard.vue')
-                },
-            },
-            {
-                path: '/login',
-                name: 'Login',
-                meta: {title: 'Reucopro - login'},
-                components: {
-                    default: () => import('../views/Login.vue')
-                },
-            },
-            /* {
-              path: '/ogout',
-              name: 'Logout',
-              components: {
-                default: () => import('../views/Login.vue')
-              },
-            },
-            /* {
-              path: '/utilisateur/:id', component: User,
-              children: [
-                {
-                  path: 'profile',
-                  component: UserProfile
-                },
-                {
-                  path: 'posts',
-                  component: UserPosts
-                }
-              ]
-            }, */
-        ];
+    init(routes) {
 
         this.router = new VueRouter({
             mode: 'history',
@@ -64,11 +25,18 @@ const RouterService = {
 
     handleSecurity() {
         this.router.beforeEach((to, from, next) => {
-            console.log(to)
-            console.log(from)
+            console.log(to);
+            console.log(from);
+            if (!StorageService.has("auth_user") && to.name !== "Login") {
+                console.log("oui");
+                next({name: 'Login'});
+            } else {
+                next();
+            }
+
             //console.log(next)
-            next();
-        })
+            //next();
+        });
     },
 
 };
