@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% trans from 'common' %} menu.login {% endtrans %}
+{% endblock %}
+
+{% block body %}
+    <form action="{{ path('bo_login') }}", method="post">
+        {{ form_widget(form) }}
+    </form>
+{% endblock %}

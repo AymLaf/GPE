@@ -1,0 +1,25 @@
+user:
+  email: Adresse e-mail
+  username: Nom d'utilisateur
+  firstname: Prénom
+  lastname: Nom
+  password: Mot de passe
+  repeat_password: Confirmer le mot de passe
+  invalid_repeat_message: Les mots de passe ne sont pas identiques
+  choose_language: Choisissez votre langue préférée
+  phone: Numéro de téléphone
+
+menu:
+  register: S'inscrire
+  login: Se connecter
+  logout: Se déconnecter
+  forgot_password: Oubli
+  reset_password: Réinitialiser
+  send: Envoyer
+  save: S'enregistrer
+  signin: Se connecter
+  fr: Français
+  en: Anglais
+  forgotten_password: Mot de passe oublié ?
+  mail_send: Le mail a bien été envoyé.
+  dashboard: Dashboard

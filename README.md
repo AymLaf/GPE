@@ -6,7 +6,7 @@
 - NPM
 
 ## First run
-You can read more about scripts in the "About scripts" section bellow
+You can read more about scripts in the "[About scripts](./README.md#about-scripts)" section bellow
 ### Installation
 Start services through docker containers :
 ```bash
@@ -48,7 +48,7 @@ $ sh start.sh
 - start.sh :
     - run `stop.sh`
     - run docker compose
-    - run composer install for the API (`api/`) through "reucopro_php" container
+    - run composer update for the API/Backoffice (`api_bo/`) through "reucopro_php" container
 - db.sh :
     - drop database through "reucopro_php" container with Doctrine
     - create database through "reucopro_php" container with Doctrine
@@ -57,12 +57,14 @@ $ sh start.sh
     - load fixtures for fake datas through "reucopro_php" container with Doctrine
 
 ## Services URLs
-- API : http://reucopro.localhost/api (add "/doc" to see ApiPlatform documentation)
+- API : http://reucopro.admin.localhost/api (add "/doc" to see ApiPlatform documentation)
+- Backoffice : http://reucopro.admin.localhost
 - Front : http://localhost:5050
-- phpMyAdmin : http://localhost:8080 (credentials : root - root)
+- PhpMyAdmin : http://reucopro.phpmyadmin.localhost/ (Automatic connexion)
+- Mailcatcher : http://reucopro.mailcatcher.localhost/
 
 ## Services docs
-- [API](/projet/api/README.md#api-documentation)
+- [API/BO](/projet/api_bo/README.md#apibo-documentation)
 
 
 

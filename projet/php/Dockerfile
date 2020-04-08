@@ -1,8 +1,12 @@
-FROM alpine:3.10
+FROM jpswade/php7.4-fpm-alpine
 
 RUN apk add --update --no-cache \
     coreutils \
-    php7-fpm \
+    make \
+    openssl \
+    curl \
+    vim \
+    nmap \
     php7-apcu \
     php7-ctype \
     php7-curl \
@@ -29,10 +33,7 @@ RUN apk add --update --no-cache \
     php7-simplexml \
     php7-xdebug \
     php7-zip \
-    php7-xmlwriter \
-    make \
-    openssl \
-    curl
+    php7-xmlwriter
 
 RUN echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
         && curl -sS https://getcomposer.org/installer | tee composer-setup.php | sha384sum -c composer-setup.php.sig \
@@ -45,8 +46,6 @@ COPY xdebug.ini  /etc/php7/conf.d/
 
 COPY symfony.pool.conf /etc/php7/php-fpm.d/
 
-CMD ["php-fpm7", "-F"]
-
-WORKDIR /var/www/api
+WORKDIR /var/www/api_bo
 
 EXPOSE 9001
