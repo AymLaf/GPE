@@ -29,6 +29,8 @@ const RouterService = {
         this.router.beforeEach((to, from, next) => {
             if (!StorageService.has("auth_user") && to.name !== "Login") {
                 next({name: 'Login'});
+            } else if (StorageService.has("auth_user") && to.name === "Login") {
+                next({name: 'Dashboard'});
             } else {
                 next();
             }

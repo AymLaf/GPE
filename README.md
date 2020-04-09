@@ -59,7 +59,7 @@ $ sh start.sh
 ## Services URLs
 - API : http://reucopro.admin.localhost/api (add "/doc" to see ApiPlatform documentation)
 - Backoffice : http://reucopro.admin.localhost
-- Front : http://localhost:5050
+- Front : http://reucopro.localhost/
 - PhpMyAdmin : http://reucopro.phpmyadmin.localhost/ (Automatic connexion)
 - Mailcatcher : http://reucopro.mailcatcher.localhost/
 

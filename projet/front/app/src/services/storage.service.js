@@ -26,6 +26,9 @@ const StorageService = {
         if (typeof localStorage.getItem(key) !== 'undefined') {
             localStorage.removeItem(key);
         }
+    },
+    clear() {
+        localStorage.clear();
     }
 };
 

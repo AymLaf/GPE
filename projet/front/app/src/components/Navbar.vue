@@ -12,7 +12,7 @@
                 <em>User</em>
             </template>
             <b-dropdown-item href="/profile">Profile</b-dropdown-item>
-            <b-dropdown-item href="/logout">Sign Out</b-dropdown-item>
+            <b-dropdown-item @click.prevent="logout">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
         </b-collapse>
@@ -21,6 +21,11 @@
 </template>
 
 <script>
-export default {
-}
+    import { mapActions } from 'vuex'
+
+    export default {
+        methods: {
+            ...mapActions('auth', ['logout'])
+        }
+    }
 </script>

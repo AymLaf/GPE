@@ -1,4 +1,5 @@
 import StorageService from '../../services/storage.service'
+import RouterService from '../../services/router.service'
 import { ApiEndpoints } from '../../router/api.endpoints'
 import { ApiAxios } from '../../services/axios.service'
 
@@ -21,10 +22,11 @@ const actions = {
             .then(function(response) {
                 if (response != null) {
                     StorageService.set('auth_user', response.data.user);
-                    StorageService.set('jwt_token', response.data.token);
+                    //StorageService.set('jwt_token', response.data.token);
                     StorageService.set('refresh_token', response.data.refresh_token);
                     ApiAxios.setHeader();
-                    commit('mutAuth', JSON.parse(response.data.user));
+                    commit('mutAuth', null);
+                    RouterService.getRouter().push({name: 'Dashboard'});
                 }
             })
             .catch(function(error) {
@@ -33,8 +35,9 @@ const actions = {
             })
     },
     logout({ commit }) {
-        commit('mutAuth', false);
-        StorageService.remove('auth_user');
+        StorageService.clear();
+        commit('mutAuth', null);
+        RouterService.getRouter().push({name: 'Login'});
     },
 };
 
