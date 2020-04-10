@@ -36,10 +36,10 @@
 		/**
 		 * @Route("/{id}/show", name="user_show")
 		 * @param Request $request
-		 * @param $id
+		 * @param integer $id
 		 * @return Response
 		 */
-		public function show(Request $request, $id) {
+		public function show(Request $request, int $id) {
 			$user = $this->userRepository->find($id);
 			if ($user instanceof User) {
 				return $this->render('Users/show.html.twig', [
