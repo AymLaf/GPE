@@ -83,7 +83,7 @@
 			$user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
 			if (!$user) {
-				throw new CustomUserMessageAuthenticationException($this->translator->trans('invalid_credentials', [], 'common'));
+				throw new CustomUserMessageAuthenticationException($this->translator->trans('menu.invalid_credentials', [], 'common'));
 			}
 
 			return $user;
@@ -96,7 +96,7 @@
 		 */
 		public function checkCredentials ($credentials, UserInterface $user) {
 			if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
-				throw new CustomUserMessageAuthenticationException($this->translator->trans('invalid_credentials', [], 'common'));
+				throw new CustomUserMessageAuthenticationException($this->translator->trans('menu.invalid_credentials', [], 'common'));
 			}
 
 			return true;

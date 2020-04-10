@@ -7,6 +7,8 @@ RUN apk add --update --no-cache \
     curl \
     vim \
     nmap \
+    nodejs \
+    yarn \
     php7-apcu \
     php7-ctype \
     php7-curl \

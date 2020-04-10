@@ -19,3 +19,12 @@ printf "\n"
 
 docker exec -it reucopro_php sh -c "composer update -d /var/www/api_bo"
 docker exec -it reucopro_php sh -c "mkdir -p /var/www/api_bo/config/jwt && chmod 777 /var/www/api_bo/config/jwt"
+
+printf "\n"
+echo "================INFO=============="
+echo " Assets - Reucopro API/Backoffice "
+echo "=================================="
+printf "\n"
+
+docker exec -it reucopro_php sh -c "yarn install"
+docker exec -it reucopro_php sh -c "yarn encore"

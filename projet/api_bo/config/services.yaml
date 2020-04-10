@@ -27,6 +27,11 @@ services:
         resource: '../src/Controller/BO'
         tags: ['controller.service_arguments']
 
+    App\Controller\BO\UsersController:
+        tags: ['controller.service_arguments']
+        arguments:
+          ['@user.repository', '@translator']
+
     App\Controller\API\:
         resource: '../src/Controller/API'
         tags: ['controller.service_arguments']
@@ -35,5 +40,8 @@ services:
         decorates: 'api_platform.swagger.normalizer.documentation'
         arguments: ['@App\Swagger\SwaggerDecorator.inner']
         autoconfigure: false
-
-
+    user.repository:
+        class: App\Repository\UserRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - App\Entity\User
