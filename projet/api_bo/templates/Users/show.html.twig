@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% trans from "common" %} user.user_fiche {% endtrans %}
+{% endblock %}
+
+{% block body %}
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">{% trans from "common" %} user.username {% endtrans %}</th>
+				<th scope="col">{% trans from "common" %} user.email {% endtrans %}</th>
+				<th scope="col">{% trans from "common" %} user.phone {% endtrans %}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{ user.username }}</td>
+				<td>{{ user.email }}</td>
+				<td>{{ user.phoneNumber }}</td>
+			</tr>
+		</tbody>
+	</table>
+{% endblock %}
