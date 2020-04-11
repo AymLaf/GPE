@@ -27,4 +27,4 @@ echo "=================================="
 printf "\n"
 
 docker exec -it reucopro_php sh -c "yarn install"
-docker exec -it reucopro_php sh -c "yarn encore"
+docker exec -it reucopro_php sh -c "yarn encore dev"
