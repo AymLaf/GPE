@@ -20,7 +20,7 @@
 	/**
 	 * Class UsersController
 	 * @package App\Controller\BO
-	 * @Route("/dashboard/user")
+	 * @Route("/dashboard/users")
 	 */
 	class UsersController extends AbstractController {
 		/** @var UserRepository $userRepository */
