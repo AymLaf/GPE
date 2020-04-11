@@ -30,7 +30,7 @@ services:
     App\Controller\BO\UsersController:
         tags: ['controller.service_arguments']
         arguments:
-          ['@user.repository', '@translator']
+          ['@user.repository', '@translator', '@knp_paginator']
 
     App\Controller\API\:
         resource: '../src/Controller/API'
