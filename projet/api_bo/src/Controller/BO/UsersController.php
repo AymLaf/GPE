@@ -10,10 +10,11 @@
 
 	use App\Entity\User;
 	use App\Repository\UserRepository;
+	use Knp\Component\Pager\PaginatorInterface;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
-	use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 	use Symfony\Component\Routing\Annotation\Route;
 	use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -27,10 +28,13 @@
 		private $userRepository;
 		/** @var TranslatorInterface $translator */
 		private $translator;
+		/** @var PaginatorInterface */
+		private $paginator;
 
-		public function __construct (UserRepository $userRepository, TranslatorInterface $translator) {
+		public function __construct (UserRepository $userRepository, TranslatorInterface $translator, PaginatorInterface $paginator) {
 			$this->userRepository = $userRepository;
 			$this->translator = $translator;
+			$this->paginator = $paginator;
 		}
 
 		/**
@@ -41,14 +45,44 @@
 		 */
 		public function show(Request $request, int $id) {
 			$user = $this->userRepository->find($id);
-			if ($user instanceof User) {
-				return $this->render('Users/show.html.twig', [
-					'user' => $user
-				]);
-			} else {
+			if (!($user instanceof User)) {
 				$this->addFlash('danger', $this->translator->trans('user.user_not_found_error', [], 'common'));
 				return $this->redirectToRoute('users_list');
 			}
+
+			return $this->render('Users/show.html.twig', [
+				'user' => $user
+			]);
+		}
+
+		/**
+		 * @Route("/{id}/edit", name="user_edit")
+		 * @param Request $request
+		 * @param integer $id
+		 */
+		public function edit(Request $request, int $id) {
+			//TODO Implémenter l'édition
+		}
+
+		/**
+		 * @Route("/{id}/remove", name="user_remove")
+		 * @param Request $request
+		 * @param integer $id
+		 * @return RedirectResponse
+		 */
+		public function remove(Request $request, int $id) {
+			$user = $this->userRepository->find($id);
+			if ($user instanceof User) {
+				if ($user === $this->getUser()) {
+					$this->addFlash('danger', $this->translator->trans('user.user_error_not_remove_yourself', [], 'common'));
+				} else {
+					//TODO Voir comment supprimer proprement
+					$this->addFlash('success', $this->translator->trans('user.user_success_remove', [], 'common'));
+				}
+			} else {
+				$this->addFlash('danger', $this->translator->trans('user.user_not_found_error', [], 'common'));
+			}
+			return $this->redirectToRoute('users_list');
 		}
 
 		/**
@@ -57,7 +91,11 @@
 		 * @return Response
 		 */
 		public function list(Request $request) {
-			$users = $this->userRepository->findAll();
+			$users = $this->paginator->paginate(
+				$this->userRepository->listAll(),
+				$request->query->getInt('page', 1),
+				15
+			);
 
 			return $this->render("Users/list.html.twig", [
 				'users' => $users
