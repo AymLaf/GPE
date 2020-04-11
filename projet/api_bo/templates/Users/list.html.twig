@@ -5,12 +5,21 @@
 {% endblock %}
 
 {% block body %}
-	<table class="table">
+	<table class="table text-center">
 		<thead>
 			<tr>
-				<th scope="col">{% trans from "common" %} user.username {% endtrans %}</th>
-				<th scope="col">{% trans from "common" %} user.email {% endtrans %}</th>
-				<th scope="col">{% trans from "common" %} user.phone {% endtrans %}</th>
+				<th {% if users.isSorted('u.email') %} class="sorted" {% endif %} scope="col">
+					{{ knp_pagination_sortable(users, 'user.username'|trans({}, 'common'), 'u.email') }}
+				</th>
+				<th {% if users.isSorted('u.email') %} class="sorted" {% endif %} scope="col">
+					{{ knp_pagination_sortable(users, 'user.email'|trans({}, 'common'), 'u.email') }}
+				</th>
+				<th {% if users.isSorted('u.phone_number') %} class="sorted" {% endif %} scope="col">
+					{{ knp_pagination_sortable(users, 'user.phone'|trans({}, 'common'), 'u.phone_number') }}
+				</th>
+				<th>{% trans from "common" %} menu.show {% endtrans %}</th>
+				<th>{% trans from "common" %} menu.edit {% endtrans %}</th>
+				<th>{% trans from "common" %} menu.remove {% endtrans %}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -19,8 +28,29 @@
 					<td>{{ user.username }}</td>
 					<td>{{ user.email }}</td>
 					<td>{{ user.phoneNumber }}</td>
+					<td>
+						<a style="color: black" href="{{ path('user_show', { id: user.id }) }}">
+							<i class="fas fa-eye"></i>
+						</a>
+					</td>
+					<td>
+						<a style="color: black" href="{{ path('user_edit', { id: user.id }) }}">
+							<i class="fas fa-user-edit"></i>
+						</a>
+					</td>
+					<td>
+						{% if user.id != app.user.id %}
+							<a href="{{ path('user_remove', { id: user.id }) }}">
+								<i class="fas fa-trash-alt" style="color: red"></i>
+							</a>
+						{% endif %}
+					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+
+	<div class="navigation text-xs-center">
+		{{ knp_pagination_render(users) }}
+	</div>
 {% endblock %}

@@ -6,6 +6,9 @@ user:
   user_fiche: Fiche utilisateur
   user_list: Liste des utilisateurs
   user_not_found_error: L'utilisateur demandé n'existe pas.
+  user_error_remove: Une erreur s'est produite lors de la suppression.
+  user_error_not_remove_yourself: Vous ne pouvez pas supprimer votre propre compte.
+  user_success_remove: L'utilisateur a été supprimé avec succès.
 
 menu:
   login: Se connecter
@@ -15,3 +18,6 @@ menu:
   mail_send: Le mail a bien été envoyé.
   dashboard: Dashboard
   invalid_credentials: Identifiants invalides
+  show: Afficher
+  remove: Supprimer
+  edit: Éditer
