@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block body %}
-	dash
-	<a href="{{ path('bo_logout') }}">
-		{% trans from 'common' %} menu.logout {% endtrans %}
+	<a href="{{ path('users_list') }}">
+		{% trans from 'common' %} user.user_list {% endtrans %}
 	</a>
 {% endblock %}
