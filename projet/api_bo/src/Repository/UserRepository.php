@@ -24,11 +24,6 @@
 		 * @return Query
 		 */
 		public function listAll () {
-			return $this->createQueryBuilder('u')
-				->select('u')
-				->leftJoin('u.owner', 'o', 'WITH', 'u.owner = o.id')
-				->leftJoin('u.syndic', 's', 'WITH', 'u.syndic = s.id')
-				->orderBy('u.email', 'ASC')
-				->getQuery();
+			return $listQuery = $this->createQueryBuilder('u')->select('u')->getQuery();
 		}
 	}
