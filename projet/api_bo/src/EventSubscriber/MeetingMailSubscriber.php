@@ -61,14 +61,14 @@ class MeetingMailSubscriber implements EventSubscriberInterface
         $this->logger->info("Entré methode sendmail");
         $meeting = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
-        $id = $meeting->getId();
-
-        $emails = [];
-
         if (!$meeting instanceof Meeting || Request::METHOD_POST !== $method) {
             $this->logger->critical("Pas une instance meeting ou method post");
             return;
         }
+        $id = $meeting->getId();
+
+        $emails = [];
+
         $this->logger->info("recup des infos emails, resolution");
         try {
             $emails = $this->ownerService->getEmailOwnerForMeeting($id);
