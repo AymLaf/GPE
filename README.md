@@ -3,6 +3,7 @@
 ## Requirements :
 - Docker
 - Bash shell
+- NPM
 
 ## First run
 You can read more about scripts in the "[About scripts](./README.md#about-scripts)" section bellow
@@ -58,7 +59,7 @@ $ sh start.sh
 ## Services URLs
 - API : http://reucopro.admin.localhost/api (add "/doc" to see ApiPlatform documentation)
 - Backoffice : http://reucopro.admin.localhost
-- Front : http://localhost:5050
+- Front : http://reucopro.localhost/
 - PhpMyAdmin : http://reucopro.phpmyadmin.localhost/ (Automatic connexion)
 - Mailcatcher : http://reucopro.mailcatcher.localhost/
 

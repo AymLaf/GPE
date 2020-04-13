@@ -8,9 +8,9 @@
 import NavBar from '@/components/Navbar.vue'
 
 export default {
-  name: 'Home',
-  components: {
-    NavBar
-  }
+    name: 'Dashboard',
+    components: {
+        NavBar
+    }
 }
 </script>
