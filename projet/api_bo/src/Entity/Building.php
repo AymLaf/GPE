@@ -214,4 +214,13 @@
 
 			return $this;
 		}
+
+		/**
+		 * @return string
+		 */
+		public function __toString () {
+			return "{$this->number} {$this->complement} {$this->address} {$this->zip_code} {$this->city}";
+		}
+
+
 	}
