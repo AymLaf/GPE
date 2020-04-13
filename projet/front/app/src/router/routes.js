@@ -15,6 +15,14 @@ const routes = [
             default: () => import('../views/Login.vue')
         },
     },
+    {
+        path: '/test',
+        name: 'Test',
+        meta: {title: 'Reucopro - test'},
+        components: {
+            default: () => import('../views/Test.vue')
+        },
+    },
     /* {
       path: '/ogout',
       name: 'Logout',

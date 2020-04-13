@@ -1,9 +1,22 @@
 import ToastrService from "./toastr.service";
 import store from "../store";
+import Qs from 'qs';
 
 const AjaxService = {
+    handleBeforeRequest(request) {
+        store.dispatch('loading/process');
+        request.withCredentials = true;
+        request.paramsSerializer = params => {
+            return Qs.stringify(params, {
+                arrayFormat: "index",
+                encode: false
+            });
+        };
+
+        return request;
+    },
     handleResponseRejected(error) {
-        //store.dispatch('loading/stopProcessing');
+        store.dispatch('loading/stopProcessing');
         if (error) {
             if (error.response) {
                 let p = this.handleStatusCode(error.response.status, error);
