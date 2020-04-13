@@ -27,11 +27,6 @@ services:
         resource: '../src/Controller/BO'
         tags: ['controller.service_arguments']
 
-    App\Controller\BO\UsersController:
-        tags: ['controller.service_arguments']
-        arguments:
-          ['@user.repository', '@translator', '@knp_paginator']
-
     App\Controller\API\:
         resource: '../src/Controller/API'
         tags: ['controller.service_arguments']
