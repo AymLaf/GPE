@@ -19,3 +19,10 @@ printf "\n"
 
 docker exec -it reucopro_php sh -c "composer update -d /var/www/api_bo"
 docker exec -it reucopro_php sh -c "mkdir -p /var/www/api_bo/config/jwt && chmod 777 /var/www/api_bo/config/jwt"
+
+printf "\n"
+echo "================INFO========================"
+echo " Launching Tests ! "
+echo "============================================"
+printf "\n"
+docker exec reucopro_php ./bin/phpunit
