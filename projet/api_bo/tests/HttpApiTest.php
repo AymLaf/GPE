@@ -5,25 +5,34 @@ namespace App\Tests;
 
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class HttpApiTest extends ApiTestCase
 {
     private $token;
+    private $client;
 
     public function setUp()
     {
+//        $response = static::createClient()->request("POST", "/api/login_check", ['json' => [
+//            'Content-type' => 'application/json',
+//            "username" => "admin@reucopro.com",
+//            "password" => "admin",
+//        ]]);
+//        $this->token = json_decode($response->getContent(), true)['refresh_token'];
+        $this->client = static::createClient();
         $response = static::createClient()->request("POST", "/api/login_check", ['json' => [
             'Content-type' => 'application/json',
             "username" => "admin@reucopro.com",
             "password" => "admin",
         ]]);
-        $this->token = json_decode($response->getContent(), true)['token'];
+        $this->client->getKernelBrowser()->getCookieJar()->set(new Cookie('BEARER', $response->getHeaders()["set-cookie"][0]));
     }
 
     public function testPostLogin()
     {
-        $response = static::createClient()->request("POST", "/api/login_check", ['json' => [
+        $response = $this->client->request("POST", "/api/login_check", ['json' => [
             'Content-type' => 'application/json',
             "username" => "admin@reucopro.com",
             "password" => "admin",
@@ -39,7 +48,7 @@ class HttpApiTest extends ApiTestCase
         } catch (\Exception $e) {
         }
         try {
-            $response = static::createClient()->request('GET', "/api/syndics/{$id}/buildings", ['auth_bearer' => $this->token
+            $response = $this->client->request('GET', "/api/syndics/{$id}/buildings", ['auth_bearer' => $this->token
             ]);
         } catch (TransportExceptionInterface $e) {
         }
@@ -56,7 +65,7 @@ class HttpApiTest extends ApiTestCase
         } catch (\Exception $e) {
         }
         try {
-            $response = static::createClient()->request('GET', "/api/syndics/{$id}/buildings/{$id2}/owners", ['auth_bearer' => $this->token]);
+            $response = $this->client->request('GET', "/api/syndics/{$id}/buildings/{$id2}/owners", ['auth_bearer' => $this->token]);
         } catch (TransportExceptionInterface $e) {
         }
         $this->assertResponseStatusCodeSame(200, "Wrong code, 200 expected");
@@ -70,7 +79,7 @@ class HttpApiTest extends ApiTestCase
         } catch (\Exception $e) {
         }
         try {
-            $response = static::createClient()->request('GET', "/api/meetings/{$id}/resolutions", ['auth_bearer' => $this->token]);
+            $response = $this->client->request('GET', "/api/meetings/{$id}/resolutions", ['auth_bearer' => $this->token]);
         } catch (TransportExceptionInterface $e) {
         }
         $this->assertResponseStatusCodeSame('200', "Wrong code, 200 expected");
@@ -79,7 +88,7 @@ class HttpApiTest extends ApiTestCase
     public function testGetDelegationAll(): void
     {
         try {
-            $response = static::createClient()->request('GET', '/api/delegations', ['auth_bearer' => $this->token]);
+            $response = $this->client->request('GET', '/api/delegations', ['auth_bearer' => $this->token]);
         } catch (TransportExceptionInterface $e) {
         }
         $this->assertResponseStatusCodeSame('200', 'Wrong code 200 expected');
@@ -93,7 +102,7 @@ class HttpApiTest extends ApiTestCase
         } catch (\Exception $e) {
         }
         try {
-            $response = static::createClient()->request('GET', "/api/lots/{$id}", ['auth_bearer' => $this->token]);
+            $response = $this->client->request('GET', "/api/lots/{$id}", ['auth_bearer' => $this->token]);
         } catch (TransportExceptionInterface $e) {
         }
         $this->assertResponseStatusCodeSame('200', 'Wrong code, 200 expected');
@@ -102,7 +111,7 @@ class HttpApiTest extends ApiTestCase
     public function testGetUserAll(): void
     {
         try {
-            $response = static::createClient()->request('GET', '/api/users', ['auth_bearer' => $this->token]);
+            $response = $this->client->request('GET', '/api/users', ['auth_bearer' => $this->token]);
         } catch (TransportExceptionInterface $e) {
         }
         $this->assertResponseStatusCodeSame('200', 'Wrong code, 200 expected');
@@ -116,7 +125,7 @@ class HttpApiTest extends ApiTestCase
         } catch (\Exception $e) {
         }
         try {
-            $response = static::createClient()->request('GET', "/api/votes/{$id}", ['auth_bearer' => $this->token]);
+            $response = $this->client->request('GET', "/api/votes/{$id}", ['auth_bearer' => $this->token]);
         } catch (TransportExceptionInterface $e) {
         }
         $this->assertResponseStatusCodeSame('200', 'Wrong code, 200 expected');
