@@ -34,4 +34,5 @@ echo "========INFO======="
 echo " Launching Tests ! "
 echo "==================="
 printf "\n"
+
 docker exec -it reucopro_php sh -c "php ./bin/phpunit"
