@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% trans from "common" %} user.user_edit {% endtrans %}
+{% endblock %}
+
+{% block body %}
+	<br/>
+	<a style="color: black; font-size: xx-large;" href="{{ app.request.headers.get('referer') }}">
+		<i class="fas fa-chevron-circle-left"></i>
+	</a>
+	<br/><br/>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				{{ form(form) }}
+			</div>
+		</div>
+	</div>
+
+	{{ form_errors(form) }}
+{% endblock %}

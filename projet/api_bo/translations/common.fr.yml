@@ -5,10 +5,12 @@ user:
   phone: Numéro de téléphone
   user_fiche: Fiche utilisateur
   user_list: Liste des utilisateurs
+  user_edit: Édition de l'utilisateur
   user_not_found_error: L'utilisateur demandé n'existe pas.
   user_error_remove: Une erreur s'est produite lors de la suppression.
   user_error_not_remove_yourself: Vous ne pouvez pas supprimer votre propre compte.
   user_success_remove: L'utilisateur a été supprimé avec succès.
+  user_success_edit: L'utilisateur a été édité avec succès.
 
 menu:
   login: Se connecter
@@ -21,6 +23,8 @@ menu:
   show: Afficher
   remove: Supprimer
   edit: Éditer
+  choose_owner: Choisir le propriétaire
+  choose_syndic: Choisir le syndic
 
 owner:
   owner: Propriétaire

@@ -9,6 +9,7 @@
 	namespace App\Controller\BO;
 
 	use App\Entity\User;
+	use App\Form\Type\UserEditType;
 	use App\Repository\UserRepository;
 	use Knp\Component\Pager\PaginatorInterface;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,9 +60,33 @@
 		 * @Route("/{id}/edit", name="user_edit")
 		 * @param Request $request
 		 * @param integer $id
+		 * @return RedirectResponse|Response
 		 */
 		public function edit(Request $request, int $id) {
-			//TODO Implémenter l'édition
+			$user = $this->userRepository->find($id);
+
+			if ($user instanceof User) {
+				$form = $this->createForm(UserEditType::class, $user);
+
+				$form->handleRequest($request);
+				if ($form->isSubmitted() && $form->isValid()) {
+					$userEdited = $form->getData();
+					//TODO Call le service qui devra gérer les creations/modifs/suppressions relatives aux entités
+
+					$this->addFlash('success', $this->translator->trans('user.user_success_edit', [], 'common'));
+					return $this->redirectToRoute('user_show', [
+						'id' => $user->getId()
+					]);
+				}
+
+				return $this->render('Users/edit.html.twig', [
+					'form' => $form->createView()
+				]);
+			} else {
+				$this->addFlash('danger', $this->translator->trans('user.user_not_found_error', [], 'common'));
+			}
+
+			return $this->redirectToRoute('users_list');
 		}
 
 		/**
@@ -76,7 +101,7 @@
 				if ($user === $this->getUser()) {
 					$this->addFlash('danger', $this->translator->trans('user.user_error_not_remove_yourself', [], 'common'));
 				} else {
-					//TODO Voir comment supprimer proprement
+					//TODO Call le service qui devra gérer les creations/modifs/suppressions relatives aux entités
 					$this->addFlash('success', $this->translator->trans('user.user_success_remove', [], 'common'));
 				}
 			} else {

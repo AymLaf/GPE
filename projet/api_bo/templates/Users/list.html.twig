@@ -11,80 +11,102 @@
 		}
 	</style>
 	<br/>
-	<a style="color: black; font-size: xx-large;" href="{{ app.request.headers.get('referer') }}">
+	<a style="color: black; font-size: xx-large; padding-left: 1%;" href="{{ app.request.headers.get('referer') }}">
 		<i class="fas fa-chevron-circle-left"></i>
 	</a>
 	<br/><br/>
-	<table class="table text-center table-hover table-responsive">
-		<thead>
-			<tr class="table-bordered">
-				<th {% if users.isSorted('u.email') %} class="sorted" {% endif %} scope="col">
-					{{ knp_pagination_sortable(users, 'user.email'|trans({}, 'common'), 'u.email') }}
-				</th>
-				<th {% if users.isSorted('u.phone_number') %} class="sorted" {% endif %} scope="col">
-					{{ knp_pagination_sortable(users, 'user.phone'|trans({}, 'common'), 'u.phone_number') }}
-				</th>
-				<th {% if users.isSorted('o.id') %} class="sorted" {% endif %} scope="col">
-					{{ knp_pagination_sortable(users, 'owner.owner'|trans({}, 'common'), 'o.id') }}
-				</th>
-				<th {% if users.isSorted('s.id') %} class="sorted" {% endif %} scope="col">
-					{{ knp_pagination_sortable(users, 'syndic.syndic'|trans({}, 'common'), 's.id') }}
-				</th>
-				<th scope="col">{% trans from "common" %} building.building {% endtrans %}</th>
-				<th scope="col">{% trans from "common" %} menu.show {% endtrans %}</th>
-				<th scope="col">{% trans from "common" %} menu.edit {% endtrans %}</th>
-				<th scope="col">{% trans from "common" %} menu.remove {% endtrans %}</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for user in users %}
-				<tr class="table-bordered">
-					<td>{{ user.email }}</td>
-					<td>{{ user.phoneNumber }}</td>
-					<td>
-						{% if user.owner %}
-							{{ user.owner.firstname ~ ' ' ~ user.owner.lastname }}
-						{% endif %}
-					</td>
-					<td>
-						{% if user.syndic %}
-							{{ user.syndic.name }}
-						{% endif %}
-					</td>
-					<td>
-						{% if user.syndic and user.syndic.buildings %}
-							<ul style="list-style: none;">
-								{% for building in user.syndic.buildings %}
-									<li>
-										{{ building.__toString }}
-									</li>
-								{% endfor %}
-							</ul>
-						{% endif %}
-					</td>
-					<td>
-						<a style="color: black" href="{{ path('user_show', { id: user.id }) }}">
-							<i class="fas fa-eye"></i>
-						</a>
-					</td>
-					<td>
-						<a style="color: black" href="{{ path('user_edit', { id: user.id }) }}">
-							<i class="fas fa-user-edit"></i>
-						</a>
-					</td>
-					<td>
-						{% if user.id != app.user.id %}
-							<a href="{{ path('user_remove', { id: user.id }) }}">
-								<i class="fas fa-trash-alt" style="color: red"></i>
-							</a>
-						{% endif %}
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+	<div class="row" style="width: 100%;">
+		<div class="offset-md-2">
+			<table class="table text-center table-hover table-responsive">
+				<thead>
+					<tr class="table-bordered">
+						<th {% if users.isSorted('u.email') %} class="sorted" {% endif %} scope="col">
+							{{ knp_pagination_sortable(users, 'user.email'|trans({}, 'common'), 'u.email') }}
+						</th>
+						<th {% if users.isSorted('u.phone_number') %} class="sorted" {% endif %} scope="col">
+							{{ knp_pagination_sortable(users, 'user.phone'|trans({}, 'common'), 'u.phone_number') }}
+						</th>
+						<th {% if users.isSorted('o.id') %} class="sorted" {% endif %} scope="col">
+							{{ knp_pagination_sortable(users, 'owner.owner'|trans({}, 'common'), 'o.id') }}
+						</th>
+						<th {% if users.isSorted('s.id') %} class="sorted" {% endif %} scope="col">
+							{{ knp_pagination_sortable(users, 'syndic.syndic'|trans({}, 'common'), 's.id') }}
+						</th>
+						<th scope="col">{% trans from "common" %} building.building {% endtrans %}</th>
+						<th scope="col">{% trans from "common" %} menu.show {% endtrans %}</th>
+						<th scope="col">{% trans from "common" %} menu.edit {% endtrans %}</th>
+						<th scope="col">{% trans from "common" %} menu.remove {% endtrans %}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in users %}
+						<tr class="table-bordered">
+							<td>{{ user.email }}</td>
+							<td>{{ user.phoneNumber }}</td>
+							<td>
+								{% if user.owner %}
+									{{ user.owner.firstname ~ ' ' ~ user.owner.lastname }}
+								{% endif %}
+							</td>
+							<td>
+								{% if user.syndic %}
+									{{ user.syndic.name }}
+								{% endif %}
+							</td>
+							<td>
+								{% if user.syndic and user.syndic.buildings %}
+									<ul style="list-style: none;">
+										{% for building in user.syndic.buildings %}
+											<li>
+												{{ building.__toString }}
+											</li>
+										{% endfor %}
+									</ul>
+								{% endif %}
+							</td>
+							<td>
+								<a style="color: black" href="{{ path('user_show', { id: user.id }) }}">
+									<i class="fas fa-eye"></i>
+								</a>
+							</td>
+							<td>
+								<a style="color: black" href="{{ path('user_edit', { id: user.id }) }}">
+									<i class="fas fa-user-edit"></i>
+								</a>
+							</td>
+							<td>
+								{% if user.id != app.user.id %}
+									<a href="{{ path('user_remove', { id: user.id }) }}" data-toggle="confirmation">
+										<i class="fas fa-trash-alt" style="color: red"></i>
+									</a>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
 
 	<div class="navigation text-xs-center">
 		{{ knp_pagination_render(users) }}
 	</div>
+	{% block javascripts %}
+		{{ parent() }}
+		<script type="text/javascript">
+			$('[data-toggle="confirmation"]').confirmation({
+				rootSelector: '[data-toggle="confirmation"]',
+				title: "Confirmez-vous vouloir supprimer cet utilisateur ?",
+                placement: 'top',
+                btnOkIcon: 'glyphicon glyphicon-ok',
+                btnOkClass: 'btn btn-sm btn-success',
+                btnOkLabel: 'Oui',
+                btnCancelIcon: 'glyphicon glyphicon-remove',
+                btnCancelClass: 'btn btn-sm btn-danger',
+                btnCancelLabel: 'Non',
+				popout: true
+			});
+		</script>
+	{% endblock %}
 {% endblock %}
