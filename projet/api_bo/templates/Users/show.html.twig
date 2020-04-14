@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% trans from "common" %} user.user_fiche {% endtrans %}
+{% endblock %}
+
+{% block body %}
+	<style>
+		.table th, .table td {
+			vertical-align: middle;
+		}
+		.btn:focus {
+			outline: none;
+		}
+	</style>
+	<br/>
+	<a style="color: black; font-size: xx-large; padding-left: 1%;" href="{{ app.request.headers.get('referer') }}">
+		<i class="fas fa-chevron-circle-left"></i>
+	</a>
+	<br/><br/>
+
+	<div class="row">
+		<div class="col-md-8 offset-md-4">
+			<table class="table text-center table-hover table-responsive">
+				<tbody>
+					<tr class="table-bordered">
+						<th scope="col">{% trans from "common" %} user.email {% endtrans %}</th>
+						<td>{{ user.email }}</td>
+					</tr>
+					<tr class="table-bordered">
+						<th scope="col">{% trans from "common" %} user.phone {% endtrans %}</th>
+						<td>{{ user.phoneNumber }}</td>
+					</tr>
+					<tr class="table-bordered">
+						<th scope="col">{% trans from "common" %} owner.owner {% endtrans %}</th>
+						<td>
+							{% if user.owner %}
+								{{ user.owner.firstname ~ ' ' ~ user.owner.lastname }}
+							{% endif %}
+						</td>
+					</tr>
+					<tr class="table-bordered">
+						<th scope="col">{% trans from "common" %} syndic.syndic {% endtrans %}</th>
+						<td>
+							{% if user.syndic %}
+								{{ user.syndic.name }}
+							{% endif %}
+						</td>
+					</tr>
+					<tr class="table-bordered">
+						<th scope="col">{% trans from "common" %} building.building {% endtrans %}</th>
+						<td>
+							{% if user.syndic and user.syndic.buildings %}
+								<ul style="list-style: none">
+									{% for building in user.syndic.buildings %}
+										<li>
+											{{ building.__toString }}
+										</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div style="text-align: center;">
+		<a href="{{ path('user_edit', { id: user.id }) }}" class="btn btn-secondary">
+			<i class="fas fa-user-edit"></i>
+			{% trans from "common" %} menu.edit {% endtrans %}
+		</a>
+
+		{% if user.id != app.user.id %}
+			<a href="{{ path('user_remove', { id: user.id }) }}" class="btn btn-danger" data-toggle="confirmation">
+				<i class="fas fa-trash-alt"></i>
+				{% trans from "common" %} menu.remove {% endtrans %}
+			</a>
+		{% endif %}
+	</div>
+
+	{% block javascripts %}
+		{{ parent() }}
+		<script type="text/javascript">
+            $('[data-toggle="confirmation"]').confirmation({
+                rootSelector: '[data-toggle="confirmation"]',
+                title: "Confirmez-vous vouloir supprimer cet utilisateur ?",
+                placement: 'top',
+                btnOkIcon: 'glyphicon glyphicon-ok',
+                btnOkClass: 'btn btn-sm btn-success',
+                btnOkLabel: 'Oui',
+                btnCancelIcon: 'glyphicon glyphicon-remove',
+                btnCancelClass: 'btn btn-sm btn-danger',
+                btnCancelLabel: 'Non',
+                popout: true
+            });
+		</script>
+	{% endblock %}
+{% endblock %}
